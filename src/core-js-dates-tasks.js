@@ -17,8 +17,9 @@
  * '01 Jan 1970 00:00:00 UTC' => 0
  * '04 Dec 1995 00:12:00 UTC' => 818035920000
  */
-function dateToTimestamp(/* date */) {
-  throw new Error('Not implemented');
+function dateToTimestamp(date) {
+  const res = new Date(date).getTime();
+  return res;
 }
 
 /**
@@ -31,8 +32,12 @@ function dateToTimestamp(/* date */) {
  * Date(2023, 5, 1, 8, 20, 55) => '08:20:55'
  * Date(2015, 10, 20, 23, 15, 1) => '23:15:01'
  */
-function getTime(/* date */) {
-  throw new Error('Not implemented');
+function getTime(date) {
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  const seconds = date.getSeconds().toString().padStart(2, '0');
+  const res = `${hours}:${minutes}:${seconds}`;
+  return res;
 }
 
 /**
@@ -46,8 +51,25 @@ function getTime(/* date */) {
  * '03 Dec 1995 00:12:00 UTC' => 'Sunday'
  * '2024-01-30T00:00:00.000Z' => 'Tuesday'
  */
-function getDayName(/* date */) {
-  throw new Error('Not implemented');
+function getDayName(date) {
+  const newDate = new Date(date);
+  const weekDay = newDate.getDay();
+  switch (weekDay) {
+    case 1:
+      return 'Monday';
+    case 2:
+      return 'Tuesday';
+    case 3:
+      return 'Wednsday';
+    case 4:
+      return 'Thursday';
+    case 5:
+      return 'Friday';
+    case 6:
+      return 'Saturday';
+    default:
+      return 'Sunday';
+  }
 }
 
 /**
@@ -61,8 +83,12 @@ function getDayName(/* date */) {
  * Date('2024-02-13T00:00:00Z') => Date('2024-02-16T00:00:00Z')
  * Date('2024-02-16T00:00:00Z') => Date('2024-02-23T00:00:00Z')
  */
-function getNextFriday(/* date */) {
-  throw new Error('Not implemented');
+function getNextFriday(date) {
+  const newDate = new Date(date);
+  const weekDay = newDate.getDay();
+  const daysAdd = (5 - weekDay + 7) % 7;
+  newDate.setDate(newDate.getDate() + (daysAdd === 0 ? 7 : daysAdd));
+  return newDate;
 }
 
 /**
@@ -76,10 +102,19 @@ function getNextFriday(/* date */) {
  * 1, 2024 => 31
  * 2, 2024 => 29
  */
-function getCountDaysInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountDaysInMonth(month, year) {
+  const array30 = [4, 6, 9, 11];
+  if (month === 2) {
+    if (year % 4 === 0) {
+      return 29;
+    }
+    return 28;
+  }
+  if (array30.includes(month)) {
+    return 30;
+  }
+  return 31;
 }
-
 /**
  * Returns the total number of days between two dates, including both the start and end dates.
  *
